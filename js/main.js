@@ -25,27 +25,99 @@ const coursesData = [
   },
   {
     id: 4,
-    title: "HR Management and Analytics",
-    category: "hr",
-    price: 200,
-    author: "Leslie Alexander Li",
-    image: "assets/images/course-3.jpg",
+    title: "Brand Management & PR Communications",
+    category: "marketing",
+    price: 530,
+    author: "Kristin Watson",
+    image: "assets/images/course-1.jpg",
   },
   {
     id: 5,
-    title: "HR Management and Analytics",
-    category: "hr",
-    price: 200,
-    author: "Leslie Alexander Li",
-    image: "assets/images/course-3.jpg",
+    title: "Graphic Design Basic",
+    category: "design",
+    price: 500,
+    author: "Guy Hawkins",
+    image: "assets/images/course-2.jpg",
   },
   {
     id: 6,
-    title: "HR Management and Analytics",
-    category: "hr",
-    price: 200,
-    author: "Leslie Alexander Li",
+    title: "Business Development Management",
+    category: "management",
+    price: 400,
+    author: "Dianne Russell",
     image: "assets/images/course-3.jpg",
+  },
+  {
+    id: 7,
+    title: "Highload Software Architecture",
+    category: "development",
+    price: 600,
+    author: "Brooklyn Simmons",
+    image: "assets/images/course-1.jpg",
+  },
+  {
+    id: 8,
+    title: "Human Resources – Selection and Recruitment",
+    category: "hr",
+    price: 150,
+    author: "Kathryn Murphy",
+    image: "assets/images/course-2.jpg",
+  },
+  {
+    id: 9,
+    title: "User Experience. Human-centered Design",
+    category: "design",
+    price: 240,
+    author: "Cody Fisher",
+    image: "assets/images/course-3.jpg",
+  },
+  {
+    id: 10,
+    title: "Social Media Marketing Strategy",
+    category: "marketing",
+    price: 350,
+    author: "Sarah Johnson",
+    image: "assets/images/course-2.jpg",
+  },
+  {
+    id: 11,
+    title: "Agile Project Management Professional",
+    category: "management",
+    price: 520,
+    author: "Michael Chen",
+    image: "assets/images/course-3.jpg",
+  },
+  {
+    id: 12,
+    title: "Full Stack Web Development Bootcamp",
+    category: "development",
+    price: 750,
+    author: "Alex Rodriguez",
+    image: "assets/images/course-1.jpg",
+  },
+  {
+    id: 13,
+    title: "Motion Graphics and Animation",
+    category: "design",
+    price: 450,
+    author: "Emma Davis",
+    image: "assets/images/course-3.jpg",
+  },
+  {
+    id: 14,
+    title: "Talent Acquisition and Employer Branding",
+    category: "hr",
+    price: 280,
+    author: "Robert Brown",
+    image: "assets/images/course-1.jpg",
+  },
+  {
+    id: 15,
+    title: "Mobile App Development with React Native",
+    category: "development",
+    price: 680,
+    author: "Nina Patel",
+    image: "assets/images/course-2.jpg",
   },
 ];
 
@@ -114,16 +186,30 @@ function filterCourses() {
     const matchesSearch = title.includes(state.searchQuery.toLowerCase());
 
     if (matchesCategory && matchesSearch) {
-      card.classList.remove("course-card--hidden");
-      visibleCards++;
+      // Показываем только первые visibleCount карточек
+      if (visibleCards < state.visibleCount) {
+        card.classList.remove("course-card--hidden");
+        visibleCards++;
+      } else {
+        card.classList.add("course-card--hidden");
+      }
     } else {
       card.classList.add("course-card--hidden");
     }
   });
 
-  // Показ/скрытие кнопки Load More
+  // Проверяем, есть ли еще карточки для показа
+  const totalMatching = Array.from(cards).filter((card) => {
+    const category = card.dataset.category;
+    const title = card.dataset.title;
+    const matchesCategory =
+      state.activeCategory === "all" || category === state.activeCategory;
+    const matchesSearch = title.includes(state.searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  }).length;
+
   elements.loadMoreBtn.style.display =
-    visibleCards > state.visibleCount ? "flex" : "none";
+    totalMatching > visibleCards ? "flex" : "none";
 }
 
 elements.searchInput.addEventListener("input", (e) => {
@@ -153,8 +239,22 @@ elements.loadMoreBtn.addEventListener("click", () => {
   filterCourses();
 });
 
+function updateFilterCounts() {
+  elements.filterButtons.forEach((btn) => {
+    const category = btn.dataset.category;
+    const count =
+      category === "all"
+        ? coursesData.length
+        : coursesData.filter((c) => c.category === category).length;
+
+    const countEl = btn.querySelector(".filter-btn__count");
+    if (countEl) countEl.textContent = count;
+  });
+}
+
 // Инициализация
 document.addEventListener("DOMContentLoaded", () => {
   renderCourses();
+  updateFilterCounts();
   filterCourses();
 });
