@@ -1,0 +1,296 @@
+// Переменные
+$color-primary: #ff6b6b;
+$color-secondary: #4ecdc4;
+$color-text: #2d3748;
+$color-gray: #718096;
+$color-bg: #f7fafc;
+$color-white: #ffffff;
+$color-yellow: #ffd93d;
+
+body {
+  font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: $color-text;
+  background: $color-bg;
+  line-height: 1.6;
+}
+
+// Категории
+$category-colors: (
+  "marketing": #4ecdc4,
+  "management": #5f7aff,
+  "hr": #ff9a3d,
+  "design": #ff6b9d,
+  "development": #5f7aff,
+);
+
+// Fluid typography и spacing (без хардкодных брейкпоинтов)
+@function fluid($min, $max, $min-vw: 320, $max-vw: 1920) {
+  $factor: calc(($max - $min) / ($max-vw - $min-vw));
+  @return clamp(
+    #{$min}px,
+    #{$min}px + #{$factor} * (100vw - #{$min-vw}px),
+    #{$max}px
+  );
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: $color-text;
+  background: $color-bg;
+  line-height: 1.6;
+}
+
+// Блок courses
+.courses {
+  padding: fluid(24, 80) fluid(16, 120);
+
+  &__container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  &__header {
+    text-align: center;
+    margin-bottom: fluid(32, 60);
+  }
+
+  &__badge {
+    display: inline-block;
+    // background: $color-primary;
+    // color: $color-white;
+    padding: fluid(4, 8) fluid(12, 20);
+    font-size: fluid(10, 12);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: fluid(8, 12);
+  }
+
+  &__title {
+    font-size: fluid(28, 48);
+    font-weight: 700;
+    color: $color-text;
+    margin: 0;
+  }
+
+  &__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: fluid(8, 12);
+    justify-content: center;
+    margin-bottom: fluid(24, 40);
+  }
+
+  &__search-wrapper {
+    margin-bottom: fluid(32, 48);
+  }
+
+  &__search {
+    width: 100%;
+    max-width: 500px;
+    display: block;
+    margin: 0 auto;
+    padding: fluid(12, 16) fluid(16, 24);
+    font-size: fluid(14, 16);
+    border: 2px solid #e2e8f0;
+    border-radius: fluid(8, 12);
+    transition: all 0.3s ease;
+
+    &:focus {
+      outline: none;
+      border-color: $color-primary;
+      box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+    }
+
+    &::placeholder {
+      color: $color-gray;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(min(100%, fluid(280, 360)), 1fr)
+    );
+    gap: fluid(20, 32);
+    margin-bottom: fluid(32, 48);
+  }
+
+  &__load-more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 0 auto;
+    padding: fluid(12, 16) fluid(24, 32);
+    font-size: fluid(14, 16);
+    font-weight: 600;
+    color: $color-text;
+    background: transparent;
+    border: 2px solid #e2e8f0;
+    border-radius: fluid(8, 12);
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-color: $color-primary;
+      color: $color-primary;
+    }
+  }
+
+  &__load-icon {
+    transition: transform 0.3s ease;
+  }
+
+  &__load-more:hover &__load-icon {
+    transform: rotate(90deg);
+  }
+}
+
+// Блок filter-btn
+
+.filter-btn {
+  padding: fluid(8, 12) fluid(16, 24);
+  font-size: fluid(13, 15);
+  font-weight: 500;
+  color: $color-text;
+  background: $color-bg;
+
+  border: none;
+  border-radius: fluid(6, 8);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+
+  &:hover {
+    border-color: $color-primary;
+    transform: translateY(-2px);
+  }
+
+  &--active {
+    background: $color-bg;
+    color: $color-primary; // Красный текст
+    border-color: $color-primary; // Красная рамка
+    font-weight: 500;
+    border: solid 1px;
+  }
+
+  &__count {
+    font-size: 0.85em;
+    opacity: 0.7;
+  }
+}
+
+.flex-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: fluid(16, 32);
+  margin-bottom: fluid(32, 48);
+  flex-wrap: wrap; // Для мобилок
+}
+
+// Блок course-card
+.course-card {
+  background: $color-white;
+  border-radius: fluid(12, 16);
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  opacity: 1;
+  animation: fadeIn 0.4s ease;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  &--hidden {
+    display: none;
+  }
+
+  &__image-wrapper {
+    position: relative;
+    width: 100%;
+    padding-top: 66.67%; // 3:2 aspect ratio
+    background: $color-yellow;
+    overflow: hidden;
+  }
+
+  &__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__content {
+    padding: fluid(16, 24);
+  }
+
+  &__category {
+    display: inline-block;
+    padding: fluid(4, 6) fluid(10, 14);
+    font-size: fluid(10, 12);
+    font-weight: 700;
+    text-transform: uppercase;
+    color: $color-white;
+    border-radius: fluid(4, 6);
+    margin-bottom: fluid(8, 12);
+    letter-spacing: 0.3px;
+
+    @each $category, $color in $category-colors {
+      &--#{$category} {
+        background: $color;
+      }
+    }
+  }
+
+  &__title {
+    font-size: fluid(16, 20);
+    font-weight: 700;
+    color: $color-text;
+    margin-bottom: fluid(12, 16);
+    line-height: 1.4;
+    min-height: fluid(44, 56);
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: fluid(12, 16);
+    border-top: 1px solid #e2e8f0;
+  }
+
+  &__price {
+    font-size: fluid(18, 24);
+    font-weight: 700;
+    color: $color-primary;
+  }
+
+  &__author {
+    font-size: fluid(12, 14);
+    color: $color-gray;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

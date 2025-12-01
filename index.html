@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Our online courses</title>
+
+    <!-- Подключение Lato -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <main class="courses">
+      <div class="courses__container">
+        <header class="courses__header">
+          <span class="courses__badge">ENJOY YOUR STUDYING</span>
+          <h1 class="courses__title">Our online courses</h1>
+        </header>
+
+        <div class="flex-row">
+          <nav class="courses__filters">
+            <button class="filter-btn filter-btn--active" data-category="all">
+              All <sup class="filter-btn__count">12</sup>
+            </button>
+            <button class="filter-btn" data-category="marketing">
+              Marketing <sup class="filter-btn__count">3</sup>
+            </button>
+            <button class="filter-btn" data-category="management">
+              Management <sup class="filter-btn__count">4</sup>
+            </button>
+            <button class="filter-btn" data-category="hr">
+              HR & Recruiting <sup class="filter-btn__count">3</sup>
+            </button>
+            <button class="filter-btn" data-category="design">
+              Design <sup class="filter-btn__count">4</sup>
+            </button>
+            <button class="filter-btn" data-category="development">
+              Development <sup class="filter-btn__count">3</sup>
+            </button>
+          </nav>
+
+          <div class="courses__search-wrapper">
+            <input
+              type="text"
+              class="courses__search"
+              placeholder="Search courses..."
+              id="searchInput"
+            />
+          </div>
+        </div>
+        <div class="courses__grid" id="coursesGrid">
+          <!-- Карточки генерируются через JS -->
+        </div>
+
+        <button class="courses__load-more" id="loadMoreBtn">
+          <svg
+            class="courses__load-icon"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+          >
+            <path d="M10 4v12m-6-6h12" stroke="currentColor" stroke-width="2" />
+          </svg>
+          Load more
+        </button>
+      </div>
+    </main>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
